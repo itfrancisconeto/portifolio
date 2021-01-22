@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Organizer</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+</head>
+
+<body class="body">
+    <div>
+        <header>
+            <h1>Image Organizer</h1>
+        </header>
+        </br>
+        <p>This is a simple aplication to organize your images according similarity with image target. For these use is necessary three steps:</p>
+        <p><i>Step 1: Browse to upload image target and click upload button</i></p>
+        <p><i>Step 2: Fill directory images field with the path to similarity images folder</i></p>        
+        <p><i>Step 3: And click on the button Organize images</i></p>
+        </br>
+        <p><b>Image target:</b></p>
+        <div>
+            <form action="/target/" method=post enctype=multipart/form-data>
+                <input type=file name=file>
+                <input type=submit value=Upload class="btn btn-primary">{{ targetUpload }}</input>
+              </form>
+        </div>
+        <br/>
+        <p><b>Directory images:</b></p>
+        <div>
+            <form action="/images/" method=post enctype=multipart/form-data>
+                <input type="text" name="directory"> 
+                <br/>
+                <input type=submit value=Upload class="btn btn-primary">{{ imagesUpload }} </input>
+              </form>
+        </div>
+        <br/>          
+        <div>        
+            <form action="/organize/" method="post">
+                <button name="organizeBtn" type="submit" class="btn btn-primary">Organize images</button>
+            </form>
+            </br></br>
+            {{ itemTarget }}
+            <p><b>Target image:</b></p>
+            {%for itemTarget in targetFileArray %}             
+                {{ itemTarget }}
+                </br>
+                <a target="_blank" href="{{ url_for('static', filename='target/'+itemTarget) }}">
+                    <img src="{{ url_for('static', filename='target/'+itemTarget) }}">
+                </a>
+                </br></br>
+            {% endfor %}
+            </br>
+            {{ itemFiles }}
+            <p><b>Oganized images:</b></p> 
+            <ol>
+                {%for itemFiles in filesOrganized %}             
+                    <li>
+                        {{ itemFiles }} 
+                    </li>
+                    <a target="_blank" href="{{ url_for('static', filename='images/'+itemFiles) }}">
+                        <img src="{{ url_for('static', filename='images/'+itemFiles) }}">
+                    </a>
+                    </br></br>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <script type="text/javascript" src="{{url_for('static',filename='js/jquery.js')}}"></script>
+</body>
+
+</html>
